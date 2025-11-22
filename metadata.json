@@ -1,0 +1,8 @@
+{
+  "name": "Stash",
+  "description": "India's premier streetwear destination. Discover rising brands, virtual try-ons, and AI styling.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}

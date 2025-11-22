@@ -1,0 +1,137 @@
+
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/client": "https://aistudiocdn.com/react-dom@^19.2.0/client",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.6",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "framer-motion": "https://aistudiocdn.com/framer-motion@^11.0.8"
+  }
+}
+</script>
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+    <title>Stash - Find good stuff here</title>
+    <meta name="description" content="India's premier streetwear destination. Find good stuff here." />
+    
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Web Safe Fallbacks -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'stash-acid': '#D4FF00',
+              'stash-black': '#050505',
+              'stash-offwhite': '#F2F2F2',
+              'stash-subtle': '#888888',
+            },
+            fontFamily: {
+              sans: ['Manrope', 'Plus Jakarta Sans', 'sans-serif'],
+              serif: ['DM Serif Display', 'Instrument Serif', 'serif'],
+            },
+            backgroundImage: {
+              'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.07%22/%3E%3C/svg%3E')",
+            },
+            animation: {
+              'marquee': 'marquee 20s linear infinite',
+              'marquee-reverse': 'marqueeReverse 20s linear infinite',
+              'float': 'float 6s ease-in-out infinite',
+              'enter': 'enter 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            },
+            keyframes: {
+              marquee: {
+                '0%': { transform: 'translateX(0%)' },
+                '100%': { transform: 'translateX(-100%)' },
+              },
+              marqueeReverse: {
+                '0%': { transform: 'translateX(-100%)' },
+                '100%': { transform: 'translateX(0%)' },
+              },
+              enter: {
+                '0%': { transform: 'translateY(20px)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-10px)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #050505; /* Fallback */
+        -webkit-font-smoothing: antialiased;
+        /* CONTENT PROTECTION CSS */
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none; /* Disables long-press menu on iOS */
+      }
+      
+      img {
+        pointer-events: none; /* Disables interaction like drag/save */
+        -webkit-user-drag: none;
+      }
+
+      /* Hide Scrollbar but allow scroll */
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      
+      .pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
+      .pt-safe { padding-top: env(safe-area-inset-top, 20px); }
+      
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      
+      /* Dark mode specific glass */
+      .dark .glass-panel {
+        background: rgba(255, 255, 255, 0.03);
+        border-color: rgba(255, 255, 255, 0.08);
+      }
+      
+      /* Light mode specific glass */
+      .light .glass-panel {
+        background: rgba(0, 0, 0, 0.03);
+        border-color: rgba(0, 0, 0, 0.05);
+      }
+      
+      .text-stroke {
+        -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+        color: transparent;
+      }
+      
+      .light .text-stroke {
+        -webkit-text-stroke: 1px rgba(0,0,0,0.3);
+      }
+      
+      .touch-action-none {
+          touch-action: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
