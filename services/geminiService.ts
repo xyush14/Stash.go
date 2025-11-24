@@ -2,6 +2,7 @@ import { GoogleGenAI, Modality } from "@google/genai";
 
 // Initialize Gemini Client
 // Note: In a real production app, requests should go through a backend to protect the API Key.
+// We default to process.env.API_KEY, but premium models require checking for a user-selected key.
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 // Helper to convert URL to base64
@@ -21,8 +22,6 @@ const urlToBase64 = async (url: string): Promise<string> => {
     });
   } catch (error) {
     console.error("Error converting URL to base64:", error);
-    // If fetching fails (e.g. CORS), we might need a fallback or proxy. 
-    // For this demo, we throw.
     throw error;
   }
 };
@@ -67,6 +66,20 @@ export const generateVirtualTryOn = async (
   productDescription: string
 ): Promise<string> => {
   try {
+    // 1. Check/Prompt for API Key for this premium model
+    // @ts-ignore
+    if (window.aistudio && window.aistudio.hasSelectedApiKey && window.aistudio.openSelectKey) {
+       // @ts-ignore
+       const hasKey = await window.aistudio.hasSelectedApiKey();
+       if (!hasKey) {
+           // @ts-ignore
+           await window.aistudio.openSelectKey();
+       }
+    }
+
+    // 2. Re-init AI to ensure we have the selected key
+    const aiClient = new GoogleGenAI({ apiKey: process.env.API_KEY });
+
     // Helper to parse base64 correctly including mime type
     const getMimeTypeAndData = (base64: string) => {
       // Check if it has the data URI scheme
@@ -88,7 +101,7 @@ export const generateVirtualTryOn = async (
     const userImg = getMimeTypeAndData(userImageBase64);
     const prodImg = getMimeTypeAndData(finalProductImage);
 
-    const response = await ai.models.generateContent({
+    const response = await aiClient.models.generateContent({
       model: 'gemini-3-pro-image-preview',
       contents: {
         parts: [
@@ -110,6 +123,7 @@ export const generateVirtualTryOn = async (
             2. IDENTITY PRESERVATION: The face, hair, body type, and skin tone of the person in USER PHOTO must remain unchanged.
             3. REALISTIC FIT: Warping and shading must apply to the garment so it fits naturally on the user's pose.
             4. BACKGROUND: Keep the original background of the USER PHOTO.
+            5. OUTPUT: Generate a high-quality, 3:4 aspect ratio image.
 
             Product Context: ${productDescription} (Use this only for understanding material/fit, not for visual details).
             
@@ -131,6 +145,10 @@ export const generateVirtualTryOn = async (
       },
       config: {
         responseModalities: [Modality.IMAGE],
+        // Adding aspect ratio and limiting tokens slightly can help speed without hurting quality too much
+        imageConfig: {
+            aspectRatio: "3:4"
+        }
       }
     });
 

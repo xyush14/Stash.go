@@ -1,4 +1,5 @@
 
+
 export interface Product {
   id: string;
   name: string;
@@ -92,4 +93,13 @@ export interface UserProfile {
   phone: string;
   isLoggedIn: boolean;
   joinedDate: string;
+}
+
+export interface Review {
+  id: string;
+  user: string;
+  rating: number;
+  comment: string;
+  date: string;
+  image?: string;
 }
